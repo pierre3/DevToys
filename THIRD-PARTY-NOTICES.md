@@ -42,6 +42,7 @@ This project incorporates components from the projects listed below. The origina
 1. [Microsoft.NET.Test.Sdk](#vstest) (<https://github.com/microsoft/vstest/>)
 1. [Microsoft.TypeScript.MSBuild](#microsofttypescriptmsbuild) (<https://www.nuget.org/packages/Microsoft.TypeScript.MSBuild/5.3.2>)
 1. [Microsoft.Windows.CsWin32](#cswin32) (<https://github.com/Microsoft/CsWin32>)
+1. [ModelContextProtocol](#modelcontextprotocol) (<https://github.com/modelcontextprotocol/csharp-sdk>)
 1. [Monaco Editor](#monaco-editor) (<https://github.com/Microsoft/monaco-editor>)
 1. [Moq](#moq) (<https://github.com/devlooped/moq>)
 1. [Newtonsoft.Json](#newtonsoftjson) (<https://github.com/JamesNK/Newtonsoft.Json>)
@@ -1021,6 +1022,22 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+ModelContextProtocol
+=========================================
+Copyright (c) Model Context Protocol a Series of LF Projects, LLC.
+
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+these files except in compliance with the License. You may obtain a copy of the
+License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
 
 Monaco Editor
 =========================================

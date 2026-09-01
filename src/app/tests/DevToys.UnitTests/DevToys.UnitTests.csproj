@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\dev\DevToys.Business\DevToys.Business.csproj" />
     <ProjectReference Include="..\..\dev\DevToys.Core\DevToys.Core.csproj" />
     <ProjectReference Include="..\..\dev\platforms\desktop\DevToys.CLI\DevToys.CLI.csproj" />
+    <ProjectReference Include="..\..\dev\platforms\desktop\DevToys.MCP\DevToys.MCP.csproj" />
   </ItemGroup>
 
   <ItemGroup>

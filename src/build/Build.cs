@@ -163,6 +163,8 @@ class Build : NukeBuild
             }
 
             PublishCliApp();
+
+            PublishMcpApp();
         });
 
     void PublishWindowsApp()
@@ -262,9 +264,77 @@ class Build : NukeBuild
         }
     }
 
+    void PublishMcpApp()
+    {
+        // DevToys MCP
+        foreach (DotnetParameters dotnetParameters in GetDotnetParametersForMcpApp())
+        {
+            Log.Information($"Publishing {dotnetParameters.ProjectOrSolutionPath + " - " + dotnetParameters.TargetFramework + " - " + dotnetParameters.RuntimeIdentifier} ...");
+            DotNetPublish(s => s
+                .SetProject(dotnetParameters.ProjectOrSolutionPath)
+                .SetConfiguration(Configuration)
+                .SetFramework(dotnetParameters.TargetFramework)
+                .SetRuntime(dotnetParameters.RuntimeIdentifier)
+                .SetSelfContained(dotnetParameters.Portable)
+                .SetPublishSingleFile(dotnetParameters.Portable)
+                .SetPublishReadyToRun(false)
+                .SetPublishTrimmed(false)
+                .SetVerbosity(DotNetVerbosity.quiet)
+                .SetProcessArgumentConfigurator(_ => _
+                    .Add($"/bl:\"{RootDirectory / "publish" / dotnetParameters.OutputPath}.binlog\""))
+                .SetOutput(RootDirectory / "publish" / dotnetParameters.OutputPath));
+        }
+    }
+
     IEnumerable<DotnetParameters> GetDotnetParametersForCliApp()
     {
         string publishProject = "DevToys.CLI";
+        Project project;
+
+        if (OperatingSystem.IsMacOS())
+        {
+            project = MacSolution!.GetProject(publishProject);
+            foreach (string targetFramework in project.GetTargetFrameworks())
+            {
+                yield return new DotnetParameters(project.Path, "osx-x64", targetFramework, portable: false);
+                yield return new DotnetParameters(project.Path, "osx-x64", targetFramework, portable: true);
+
+                yield return new DotnetParameters(project.Path, "osx-arm64", targetFramework, portable: false);
+                yield return new DotnetParameters(project.Path, "osx-arm64", targetFramework, portable: true);
+            }
+        }
+        else if (OperatingSystem.IsWindows())
+        {
+            project = WindowsSolution!.GetAllProjects(publishProject).Single();
+            foreach (string targetFramework in project.GetTargetFrameworks())
+            {
+                yield return new DotnetParameters(project.Path, "win-x64", targetFramework, portable: false);
+                yield return new DotnetParameters(project.Path, "win-x64", targetFramework, portable: true);
+
+                yield return new DotnetParameters(project.Path, "win-arm64", targetFramework, portable: false);
+                yield return new DotnetParameters(project.Path, "win-arm64", targetFramework, portable: true);
+
+                yield return new DotnetParameters(project.Path, "win-x86", targetFramework, portable: false);
+                yield return new DotnetParameters(project.Path, "win-x86", targetFramework, portable: true);
+            }
+        }
+        else if (OperatingSystem.IsLinux())
+        {
+            project = LinuxSolution!.GetAllProjects(publishProject).Single();
+            foreach (string targetFramework in project.GetTargetFrameworks())
+            {
+                yield return new DotnetParameters(project.Path, "linux-arm", targetFramework, portable: false, platform: "arm");
+                yield return new DotnetParameters(project.Path, "linux-x64", targetFramework, portable: false, platform: "x64");
+
+                yield return new DotnetParameters(project.Path, "linux-arm", targetFramework, portable: true, platform: "arm");
+                yield return new DotnetParameters(project.Path, "linux-x64", targetFramework, portable: true, platform: "x64");
+            }
+        }
+    }
+
+    IEnumerable<DotnetParameters> GetDotnetParametersForMcpApp()
+    {
+        string publishProject = "DevToys.MCP";
         Project project;
 
         if (OperatingSystem.IsMacOS())
